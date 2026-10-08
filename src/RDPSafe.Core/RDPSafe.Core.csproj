@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.66" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.12" />
+    <PackageReference Include="System.Diagnostics.EventLog" Version="10.0.12" />
+    <PackageReference Include="System.ServiceProcess.ServiceController" Version="10.0.12" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- 内嵌到程序集；运行目录下若存在同名文件则优先使用外部文件，便于更新数据 -->
+    <EmbeddedResource Include="..\..\data\ip2region_v4.xdb" LogicalName="ip2region_v4.xdb" />
+  </ItemGroup>
+</Project>

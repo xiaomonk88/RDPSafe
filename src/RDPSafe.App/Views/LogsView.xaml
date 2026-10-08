@@ -1,0 +1,97 @@
+<UserControl x:Class="RDPSafe.App.Views.LogsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="clr-namespace:RDPSafe.App">
+    <DockPanel>
+        <Grid DockPanel.Dock="Top" Margin="0,0,0,14">
+            <StackPanel Orientation="Horizontal">
+                <Border Style="{StaticResource SegmentHost}">
+                    <StackPanel Orientation="Horizontal">
+                        <RadioButton Style="{StaticResource Segment}" Content="全部" GroupName="lv"
+                                     IsChecked="{Binding Level, Converter={StaticResource Equals}, ConverterParameter=''}" />
+                        <RadioButton Style="{StaticResource Segment}" Content="封禁" GroupName="lv"
+                                     IsChecked="{Binding Level, Converter={StaticResource Equals}, ConverterParameter=ban}" />
+                        <RadioButton Style="{StaticResource Segment}" Content="解封" GroupName="lv"
+                                     IsChecked="{Binding Level, Converter={StaticResource Equals}, ConverterParameter=unban}" />
+                        <RadioButton Style="{StaticResource Segment}" Content="配置" GroupName="lv"
+                                     IsChecked="{Binding Level, Converter={StaticResource Equals}, ConverterParameter=config}" />
+                        <RadioButton Style="{StaticResource Segment}" Content="警告" GroupName="lv"
+                                     IsChecked="{Binding Level, Converter={StaticResource Equals}, ConverterParameter=warn}" />
+                        <RadioButton Style="{StaticResource Segment}" Content="错误" GroupName="lv"
+                                     IsChecked="{Binding Level, Converter={StaticResource Equals}, ConverterParameter=error}" />
+                        <RadioButton Style="{StaticResource Segment}" Content="运行" GroupName="lv"
+                                     IsChecked="{Binding Level, Converter={StaticResource Equals}, ConverterParameter=info}" />
+                    </StackPanel>
+                </Border>
+                <TextBox Width="260" Margin="12,0,0,0" Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}" ui:Ext.Icon="&#xE721;"
+                         ui:Ext.Placeholder="搜索日志内容，回车查询">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Enter" Command="{Binding QueryCommand}" />
+                    </TextBox.InputBindings>
+                </TextBox>
+            </StackPanel>
+        </Grid>
+
+        <Border Style="{StaticResource Card}" Padding="0" ClipToBounds="True">
+            <Grid>
+                <DataGrid ItemsSource="{Binding Items}" SelectionMode="Single" RowHeight="38">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="时间" Width="170" Binding="{Binding Time, Converter={StaticResource UnixTime}}" ElementStyle="{StaticResource CellMono}" SortMemberPath="Time" />
+                        <DataGridTemplateColumn Header="类别" Width="84" SortMemberPath="Level">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border x:Name="P" Style="{StaticResource Pill}" Background="#F1F5F9">
+                                        <TextBlock x:Name="T" Text="运行" Style="{StaticResource PillText}" Foreground="{StaticResource Text2}" />
+                                    </Border>
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding Level}" Value="ban">
+                                            <Setter TargetName="P" Property="Background" Value="{StaticResource WarningSoft}" />
+                                            <Setter TargetName="T" Property="Foreground" Value="{StaticResource Warning}" />
+                                            <Setter TargetName="T" Property="Text" Value="封禁" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Level}" Value="unban">
+                                            <Setter TargetName="P" Property="Background" Value="{StaticResource SuccessSoft}" />
+                                            <Setter TargetName="T" Property="Foreground" Value="{StaticResource Success}" />
+                                            <Setter TargetName="T" Property="Text" Value="解封" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Level}" Value="config">
+                                            <Setter TargetName="P" Property="Background" Value="{StaticResource PrimarySoft}" />
+                                            <Setter TargetName="T" Property="Foreground" Value="{StaticResource Primary}" />
+                                            <Setter TargetName="T" Property="Text" Value="配置" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Level}" Value="warn">
+                                            <Setter TargetName="P" Property="Background" Value="#FFF7ED" />
+                                            <Setter TargetName="T" Property="Foreground" Value="#EA580C" />
+                                            <Setter TargetName="T" Property="Text" Value="警告" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Level}" Value="error">
+                                            <Setter TargetName="P" Property="Background" Value="{StaticResource DangerSoft}" />
+                                            <Setter TargetName="T" Property="Foreground" Value="{StaticResource Danger}" />
+                                            <Setter TargetName="T" Property="Text" Value="错误" />
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="内容" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Message}" Style="{StaticResource CellText}" ToolTip="{Binding Message}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="复制此条日志" ui:Ext.Icon="&#xE8C8;"
+                                      Command="{Binding PlacementTarget.DataContext.CopyCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                      CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                </DataGrid>
+                <TextBlock Text="暂无日志" Foreground="{StaticResource Muted}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                           Visibility="{Binding Items.Count, Converter={StaticResource Hidden}}" />
+            </Grid>
+        </Border>
+    </DockPanel>
+</UserControl>
