@@ -30,6 +30,7 @@ public sealed partial class MainViewModel : ObservableObject
     public AppState State => AppState.Instance;
     public Ui Ui => Ui.Instance;
     public string Version => $"v{AppInfo.Version}";
+    public string WindowTitle => $"RDPSafe v{AppInfo.Version}";
 
     [ObservableProperty]
     private PageViewModel _currentPage;

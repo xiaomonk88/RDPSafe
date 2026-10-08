@@ -1,10 +1,11 @@
 <Project>
   <!-- 全局版本号：发布新版本时只需修改这里 -->
   <PropertyGroup>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <Product>RDPSafe</Product>
     <Company>RDPSafe</Company>
     <Copyright>Copyright © 2026 RDPSafe</Copyright>
     <LangVersion>latest</LangVersion>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
   </PropertyGroup>
 </Project>

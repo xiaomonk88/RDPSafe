@@ -19,7 +19,7 @@ public sealed class TrayIcon : IDisposable
         _icon = new Forms.NotifyIcon
         {
             Icon = new System.Drawing.Icon(stream),
-            Text = "RDPSafe · RDP 防暴力破解",
+            Text = $"RDPSafe v{Core.AppInfo.Version} · RDP 防暴力破解",
             ContextMenuStrip = menu,
             Visible = true,
         };

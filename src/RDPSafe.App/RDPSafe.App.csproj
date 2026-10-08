@@ -9,6 +9,7 @@
     <AssemblyName>RDPSafe</AssemblyName>
     <RootNamespace>RDPSafe.App</RootNamespace>
     <Description>RDP 防暴力破解工具</Description>
+    <AssemblyTitle>RDPSafe - 远程桌面防暴力破解工具</AssemblyTitle>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Assets\rdpsafe.ico</ApplicationIcon>
     <!-- 自定义入口：同一个 exe 既是界面，也是 Windows 服务（带 service 参数启动） -->

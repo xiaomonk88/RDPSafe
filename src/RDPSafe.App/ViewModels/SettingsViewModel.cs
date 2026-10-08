@@ -271,6 +271,53 @@ public sealed partial class SettingsViewModel : PageViewModel
         Ui.Show(AuditEnabled == true ? "已开启登录审核" : "已提交，但策略可能被组策略覆盖", AuditEnabled != true);
     });
 
+    // ───────────────────────── 关于 ─────────────────────────
+
+    public string VersionText => $"v{AppInfo.Version}";
+    public string RepoUrl => AppInfo.RepoUrl;
+
+    [ObservableProperty] private string _updateText = "";
+    [ObservableProperty] private string? _updateUrl;
+
+    [RelayCommand]
+    private void OpenRepo() => OpenUrl(AppInfo.RepoUrl);
+
+    [RelayCommand]
+    private void OpenUpdate()
+    {
+        if (UpdateUrl != null) OpenUrl(UpdateUrl);
+    }
+
+    [RelayCommand]
+    private Task CheckUpdate() => RunBusy(async () =>
+    {
+        UpdateText = "正在检查…";
+        UpdateUrl = null;
+        try
+        {
+            using var http = new System.Net.Http.HttpClient { Timeout = TimeSpan.FromSeconds(10) };
+            http.DefaultRequestHeaders.UserAgent.ParseAdd($"RDPSafe/{AppInfo.Version}");
+            using var doc = System.Text.Json.JsonDocument.Parse(await http.GetStringAsync(AppInfo.LatestReleaseApi));
+            var tag = doc.RootElement.GetProperty("tag_name").GetString() ?? "";
+            var url = doc.RootElement.GetProperty("html_url").GetString();
+            if (Version.TryParse(tag.TrimStart('v', 'V'), out var latest) && Version.TryParse(AppInfo.Version, out var current) && latest > current)
+            {
+                UpdateText = $"发现新版本 {tag}";
+                UpdateUrl = url;
+            }
+            else
+            {
+                UpdateText = "已是最新版本";
+            }
+        }
+        catch (Exception ex)
+        {
+            UpdateText = $"检查失败：{ex.Message}";
+        }
+    });
+
+    private static void OpenUrl(string url) => Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+
     [RelayCommand]
     private void OpenDataDir()
     {

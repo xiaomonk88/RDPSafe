@@ -6,6 +6,8 @@ public static class AppInfo
     public const string ServiceName = "RDPSafe";
     public const string ServiceDisplayName = "RDPSafe 防护引擎";
     public const string PipeName = "RDPSafe.Engine";
+    public const string RepoUrl = "https://github.com/xiaomonk88/RDPSafe";
+    public const string LatestReleaseApi = "https://api.github.com/repos/xiaomonk88/RDPSafe/releases/latest";
     public static readonly string Version =
         typeof(AppInfo).Assembly.GetName().Version?.ToString(3) ?? "1.0.0";
 }

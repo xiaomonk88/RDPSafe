@@ -249,6 +249,38 @@
                         </StackPanel>
                     </Border>
 
+                    <Border Style="{StaticResource Card}" Margin="0,16,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Image Source="/Assets/rdpsafe.png" Width="44" Height="44" VerticalAlignment="Top" RenderOptions.BitmapScalingMode="HighQuality" />
+                            <StackPanel Grid.Column="1" Margin="14,0,12,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="RDPSafe" Style="{StaticResource CardTitle}" FontSize="16" />
+                                    <Border Style="{StaticResource Pill}" Background="{StaticResource PrimarySoft}" Margin="8,0,0,0">
+                                        <TextBlock Text="{Binding VersionText}" Style="{StaticResource PillText}" Foreground="{StaticResource Primary}" />
+                                    </Border>
+                                </StackPanel>
+                                <TextBlock Text="Windows 远程桌面防暴力破解工具" Style="{StaticResource Caption}" Margin="0,4,0,0" />
+                                <TextBlock Margin="0,6,0,0" FontSize="12">
+                                    <Hyperlink Command="{Binding OpenRepoCommand}" Foreground="{StaticResource Primary}">
+                                        <Run Text="{Binding RepoUrl, Mode=OneWay}" />
+                                    </Hyperlink>
+                                </TextBlock>
+                                <StackPanel Orientation="Horizontal" Margin="0,6,0,0" Visibility="{Binding UpdateText, Converter={StaticResource Visible}}">
+                                    <TextBlock Text="{Binding UpdateText}" Style="{StaticResource Caption}" VerticalAlignment="Center" />
+                                    <Button Style="{StaticResource LinkButton}" Content="前往下载" Margin="6,0,0,0" Command="{Binding OpenUpdateCommand}"
+                                            Visibility="{Binding UpdateUrl, Converter={StaticResource Visible}}" />
+                                </StackPanel>
+                            </StackPanel>
+                            <Button Grid.Column="2" Style="{StaticResource SoftButton}" Content="检查更新" ui:Ext.Icon="&#xE895;"
+                                    Command="{Binding CheckUpdateCommand}" VerticalAlignment="Top" />
+                        </Grid>
+                    </Border>
+
                     <Border Style="{StaticResource Card}" Margin="0,16,0,0" BorderBrush="#FECDD3">
                         <Grid>
                             <StackPanel Margin="0,0,140,0">

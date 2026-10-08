@@ -4,7 +4,7 @@
         xmlns:vm="clr-namespace:RDPSafe.App.ViewModels"
         xmlns:v="clr-namespace:RDPSafe.App.Views"
         xmlns:ui="clr-namespace:RDPSafe.App"
-        Title="RDPSafe" Width="1240" Height="800" MinWidth="1040" MinHeight="640"
+        Title="{Binding WindowTitle}" Width="1240" Height="800" MinWidth="1040" MinHeight="640"
         WindowStartupLocation="Manual"
         Background="{StaticResource Bg}" FontFamily="{StaticResource UiFont}" FontSize="13"
         Foreground="{StaticResource Text}" Icon="/Assets/rdpsafe.ico"
@@ -36,7 +36,12 @@
                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="6,4,0,28">
                     <Image Source="/Assets/rdpsafe.png" Width="34" Height="34" RenderOptions.BitmapScalingMode="HighQuality" />
                     <StackPanel Margin="11,0,0,0" VerticalAlignment="Center">
-                        <TextBlock Text="RDPSafe" Foreground="White" FontSize="18" FontWeight="Bold" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="RDPSafe" Foreground="White" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" />
+                            <Border Background="#26324F" CornerRadius="6" Padding="6,1" Margin="8,2,0,0" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Version}" Foreground="#A5B4FC" FontSize="11" FontWeight="SemiBold" />
+                            </Border>
+                        </StackPanel>
                         <TextBlock Text="远程桌面防暴力破解" Foreground="#7C8AA5" FontSize="11.5" Margin="0,1,0,0" />
                     </StackPanel>
                 </StackPanel>
@@ -81,7 +86,6 @@
                                 <Run Text="{Binding ActiveBans, StringFormat={}{0:N0}, Mode=OneWay}" Foreground="White" FontWeight="SemiBold" />
                                 <Run Text="个 IP" />
                             </TextBlock>
-                            <TextBlock Text="{Binding Version}" Foreground="#56627E" FontSize="11" HorizontalAlignment="Right" />
                         </Grid>
                     </StackPanel>
                 </Border>
